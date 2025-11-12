@@ -18,81 +18,108 @@ public class Algebra {
    		System.out.println(div(25,7));   // 25 / 7
    		System.out.println(mod(25,7));   // 25 % 7
    		System.out.println(mod(120,6));  // 120 % 6    
-   		System.out.println(sqrt(36)); //6
+   		System.out.println(sqrt(36));
 		System.out.println(sqrt(263169));
    		System.out.println(sqrt(76123));
 	}  
 
 	// Returns x1 + x2
 	public static int plus(int x1, int x2) {
-		int sum = x1;
-		for (int i =0; i < x2; i++) {
-			sum++;
+		if (x2 > 0){
+			for (int i = 0; i < x2; i++){
+				x1++;
+			}
+		} else if (x2 < 0){
+			for (int i = 0; i > x2; i--){
+				x1--;
+			}
 		}
-		return sum;
 		
+		return x1;
 	}
 
 	// Returns x1 - x2
 	public static int minus(int x1, int x2) {
-		int diff = x1;
-		for (int i = 0; i < x2; i++){
-			diff--;
+		if (x2 > 0){
+			for (int i = 0; i < x2; i++){
+				x1--;
+			}
+		} else if (x2 < 0){
+			for (int i = 0; i > x2; i--){
+				x1++;
+			}
 		}
-		return diff;
-	}
+		
+		return x1;
+	}	
 
 	// Returns x1 * x2
 	public static int times(int x1, int x2) {
-		if(x1 == 0 || x2 == 0) return 0;
-		if(x1 == 1) return x2;
-		if(x2 == 1) return x1;
-		int mult = 0;
-		for (int i = 0; i < x2; i++){
-			mult = plus(mult, x1);
+		int result = 0;
+		if (x2 > 0){
+			for (int i = 0; i < x2; i++){
+				result = plus(result, x1);
+			}
+		} else if (x2 < 0){
+			for (int i = 0; i > x2; i--) {
+				result = minus(result, x1);
+			}
 		}
-		return mult;
+		return result;
 	}
 
 	// Returns x^n (for n >= 0)
 	public static int pow(int x, int n) {
-		if(n == 0) return 1;
-		if (n ==1) return x;
-		int power = 1;
+		int result = 1;
 		for (int i = 0; i < n; i++){
-			power = times(x,power);
+			result = times(result, x);
 		}
-		return power;
+		return result;
 	}
 
 	// Returns the integer part of x1 / x2 
 	public static int div(int x1, int x2) {
-		if (x1 == x2) return 1;
-		if (x1 == 0 ) return 0;
-		if (x2 == 0) return -1;
-		int count = 0;
-		for (int i = 0; x1 >= x2; i++){
-			x1 = minus(x1, x2);
-			count++;
+		int result = 0;
+		if (x1 > 0){
+			while (x1 >= x2){
+				if (x2 > 0){
+					x1 = minus(x1, x2);
+					result++;
+			} else if (x2 < 0){
+					x1 = plus(x1, x2);
+					result--;
+			}
 		}
-		return count;
+		} else if (x1 < 0){
+			while (x1 >= x2){
+				if (x2 < 0){
+					x1 = plus(x1, x2);
+					result++;
+				} else if (x2 > 0){
+					x2 = times(x2, -1);
+					x1 = plus(x1, x2);
+					result++;
+				}
+			}
+		}
+		return result;
 	}
 
 	// Returns x1 % x2
 	public static int mod(int x1, int x2) {
-		int divide = div(x1, x2);
-		int mult = times(divide, x2);
-		return x1 - mult;
-	}	
-
+		while (x1 >= x2){
+			x1 = minus(x1, x2);
+		}	
+		return x1;
+	}
+		
 	// Returns the integer part of sqrt(x) 
 	public static int sqrt(int x) {
-		if (x == 0 || x == 1) return x;
-		int result = 0;
-		while (times(result, result) < x) { 
-			result++; 
-		}
-		return result;
-	}
-	}
-	  	  
+		int i = 0;
+        while (times(i, i) <= x) {
+            i++;
+        }
+		i-= 1;
+        return i;
+	}	  	  
+}
