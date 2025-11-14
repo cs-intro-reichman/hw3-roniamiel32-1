@@ -72,12 +72,24 @@ public class Anagram {
     return newStr;
 }
 
-	
+	public static String preProcessNoSpace(String str) {
+		String newStr = "";
+		String abc = "abcdefghijklmnopqrstuvwxyz";
+		str = str.toLowerCase();
+		for (int i = 0; i < str.length(); i++) {
+			for (int j = 0; j < abc.length(); j++)
+				if (str.charAt(i) == abc.charAt(j)) {
+					newStr += str.charAt(i);
+				}
+		}
+		return newStr;
+	}
+
 	// Returns a random anagram of the given string. The random anagram consists of
 	// the same
 	// characters as the given string, re-arranged in a random order.
 	public static String randomAnagram(String str) {
-		str = preProcess(str);
+		str = preProcessNoSpace(str);
 		String anagramStr = "";
 		while (0 < str.length()) {
 			int randomChar = (int) (Math.random() * str.length());
